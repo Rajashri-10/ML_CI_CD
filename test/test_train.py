@@ -11,7 +11,7 @@ from src.train import train_model
 
 def test_model_training():
     train_model()
-    assert os.path.exists("models/model.pkl")
+    assert os.path.exists("models/models.pkl")
 
-    model = joblib.load("models/model.pkl")
+    model = joblib.load("models/models.pkl")
     assert hasattr(model, "predict")
