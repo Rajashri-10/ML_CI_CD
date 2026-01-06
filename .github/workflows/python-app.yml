@@ -26,21 +26,21 @@ jobs:
 
       #step 3 - Install Dependencies 
       - name: Install Dependencies
-        runs: |
+        run: |
           python -m pip insatll --upgrade pip
           pip insatll -r requirements.txt
 
       #step 4 - Run unit tests
       - name: Run Unit test
-        runs: pytest -v
+        run: pytest -v
 
       #step 5 - Train the model 
       - name: Train model
-        runs: python src/train.py
+        run: python src/train.py
 
       #step 6 - Evaluate the model
       - name: Evaluate model
-        runs: python src/evaluate.py
+        run: python src/evaluate.py
 
       #step 7 - upload the train model as artifact
       - name: Upload model artifact
@@ -66,7 +66,7 @@ jobs:
 
       #step 9 - Deployment simultions
       - name: Deployment simultions
-        runs: |
+        run: |
           echo "Model deploye successfully"
           ls -l models
 
