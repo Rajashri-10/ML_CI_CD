@@ -62,7 +62,7 @@ jobs:
 
         with:
            name: train model 
-           path: models
+           path: models/models.pkl
 
       #step 9 - Deployment simultions
       - name: Deployment simultions
