@@ -1,72 +1,77 @@
-name: MLOPS CI CD Pipeline
+name: MLOPS CI CD Pieline
 
 on:
-  push: 
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    push: 
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
 
 jobs:
-  build-test-train: 
-    runs-on: ubuntu-latest
+    build-test-train:
+        runs-on: ubuntu-latest
 
-    steps:
-      #step 1 - check out source code
-      - name: Checkout repositery
-        uses: actions/checkout@v4
+        steps:
+            # step 1 Checkout source codeven
+            - name: Checkout repositery
+              uses: actions/checkout@v4
 
-      #step 2 - Setup Python Environment
-      - name: Setup Python
-        uses: actions/setup-python@v5
+            # step 2 Setup python enviroment
+            - name: Setup Python
+              uses: actions/setup-python@v5
 
-        with:
-          python-version: "3.10"
+              with:
+                python-version: "3.10"
 
-      #step 3 - Install Dependencies 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
 
-      #step 4 - Run unit tests
-      - name: Run Unit test
-        run: pytest -v
+            # step 3 Insatll dependencies
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
 
-      #step 5 - Train the model 
-      - name: Train model
-        run: python src/train.py
+            # step 4 Run unit tests
+            - name: Run unit tests
+              run: pytest -v
 
-      #step 6 - Evaluate the model
-      - name: Evaluate model
-        run: python src/evaluate.py
 
-      #step 7 - upload the train model as artifact
-      - name: Upload model artifact
-        uses: actions/upload-artifact@v4
+            # step 5 Train the model 
+            - name: Train model
+              run: python src/train.py
 
-        with:
-          name: Trained-model
-          path: models/models.pkl
+            # step 6 Evaluate the model
+            - name: Evaluate model
+              run: python src/evaluate.py
 
-      
-  deploy:
-    needs: build-test-train
-    runs-on: ubuntu-latest
+            # step 7 Upload the train model as artifact 
+            - name: Upload model artifact
+              uses: actions/upload-artifact@v4
 
-    steps:
-      #step 8 - Download the train model 
-      - name: Download model artifact
-        uses: actions/download-artifact@v4
+              with: 
+                name: trained-model
+                path: models/models.pkl
 
-        with:
-           name: train model 
-           path: models/models.pkl
 
-      #step 9 - Deployment simultions
-      - name: Deployment simultions
-        run: |
-          echo "Model deploye successfully"
-          ls -l models
+    
 
+
+    deploy:
+        needs: build-test-train
+        runs-on: ubuntu-latest
+
+
+        steps:
+            # step 8 Download the train model
+            - name: Download model artifact
+              uses: actions/download-artifact@v4
+
+              with:
+                name: trained-model
+                path: models
+
+            # step 9  deployment simulations
+            - name: Deployment simulation
+              run: |
+               echo "Model deployed successfully"
+               ls -l models
